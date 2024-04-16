@@ -15,19 +15,17 @@ public class SonarrCommands {
     return new ArrayList<Command>() {{
       add(new BaseCommand(
               "show id add",
-        "Adds a show using search text and tmdb id (i.e., show id add 30 clock 484767)",
-              Arrays.asList("show-title", "show-tvdbid")) {
+        "Adds a show using search text and tmdb id (i.e., show id add 484767)",
+              Collections.singletonList("show-tvdbid")) {
         @Override
         public List<CommandResponse> execute(String command) {
-          int lastSpace = command.lastIndexOf(" ");
-          if (lastSpace == -1) {
-            throw new RuntimeException("Missing expected arguments - usage: show id add SHOW_TITLE_HERE SHOW_ID_HERE");
+          if (command.isEmpty()) {
+            throw new RuntimeException("Missing expected arguments - usage: show id add SHOW_ID_HERE");
           }
-          String searchText = command.substring(0, lastSpace);
-          String id = command.substring(lastSpace + 1);
-          validateShowTitle(searchText);
-          validateShowId(id);
-          return Collections.singletonList(sonarrApi.addWithId(searchText, id));
+
+          validateShowId(command);
+
+          return Collections.singletonList(sonarrApi.addWithId(command));
         }
       });
       add(new BaseCommand(
