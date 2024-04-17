@@ -82,7 +82,7 @@ public class TelegramResponseBuilder implements ChatClientResponseBuilder<Telegr
     List<DomContent> domContents = new ArrayList<>();
     domContents.add(b("*Title* - " + show.getTitle()));
     domContents.add(code("TvdbId - " + show.getTvdbId()));
-    domContents.add(u(ADD_SHOW_COMMAND_FIELD_PREFIX + " - " +  SonarrCommands.getAddShowCommandStr(show.getTitle(), show.getTvdbId())));
+    domContents.add(u(ADD_SHOW_COMMAND_FIELD_PREFIX + " - " +  SonarrCommands.getAddShowCommandStr(show.getTvdbId())));
     domContents.add(a(show.getRemoteImage()));
     return new TelegramResponse(domContents);
   }
@@ -246,7 +246,7 @@ public class TelegramResponseBuilder implements ChatClientResponseBuilder<Telegr
     domContents.add(b("*Title* - " + sonarrShow.getTitle()));
     domContents.add(code("TvdbId - " + sonarrShow.getTvdbId()));
     domContents.add(a(sonarrShow.getRemoteImage()));
-    return getAddResponse(domContents, SonarrCommands.getAddShowCommandStr(sonarrShow.getTitle(), sonarrShow.getTvdbId()));
+    return getAddResponse(domContents, SonarrCommands.getAddShowCommandStr(sonarrShow.getTvdbId()));
   }
 
   @Override

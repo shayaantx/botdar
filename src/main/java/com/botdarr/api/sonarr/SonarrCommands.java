@@ -15,7 +15,7 @@ public class SonarrCommands {
     return new ArrayList<Command>() {{
       add(new BaseCommand(
               "show id add",
-        "Adds a show using search text and tmdb id (i.e., show id add 484767)",
+        "Adds a show using tvdb id (i.e., show id add 484767)",
               Collections.singletonList("show-tvdbid")) {
         @Override
         public List<CommandResponse> execute(String command) {
@@ -83,8 +83,8 @@ public class SonarrCommands {
     }};
   }
 
-  public static String getAddShowCommandStr(String title, long tvdbId) {
-    return CommandContext.getConfig().getPrefix() + "show id add " + title + " " + tvdbId;
+  public static String getAddShowCommandStr(long tvdbId) {
+    return CommandContext.getConfig().getPrefix() + "show id add " + tvdbId;
   }
 
   public static String getHelpShowCommandStr() {

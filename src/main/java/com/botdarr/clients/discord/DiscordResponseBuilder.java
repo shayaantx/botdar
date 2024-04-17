@@ -87,7 +87,7 @@ public class DiscordResponseBuilder implements ChatClientResponseBuilder<Discord
     SonarrShow show = showResponse.getShow();
     embedBuilder.setTitle(show.getTitle());
     embedBuilder.addField(SHOW_LOOKUP_FIELD, String.valueOf(show.getTvdbId()), false);
-    embedBuilder.addField(ADD_SHOW_COMMAND_FIELD_PREFIX, SonarrCommands.getAddShowCommandStr(show.getTitle(), show.getTvdbId()), false);
+    embedBuilder.addField(ADD_SHOW_COMMAND_FIELD_PREFIX, SonarrCommands.getAddShowCommandStr(show.getTvdbId()), false);
     embedBuilder.setImage(show.getRemoteImage());
     return new DiscordResponse(embedBuilder.build());
   }
@@ -213,7 +213,7 @@ public class DiscordResponseBuilder implements ChatClientResponseBuilder<Discord
     embedBuilder.addField("TvdbId", "" + sonarrShow.getTvdbId(), true);
     embedBuilder.setImage(sonarrShow.getRemoteImage());
     if (!usingSlashCommand) {
-      embedBuilder.addField(ADD_SHOW_COMMAND_FIELD_PREFIX, SonarrCommands.getAddShowCommandStr(sonarrShow.getTitle(), sonarrShow.getTvdbId()), false);
+      embedBuilder.addField(ADD_SHOW_COMMAND_FIELD_PREFIX, SonarrCommands.getAddShowCommandStr(sonarrShow.getTvdbId()), false);
       return new DiscordResponse(embedBuilder.build());
     }
     List<Component> actionComponents = new ArrayList<>();

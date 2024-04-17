@@ -77,7 +77,7 @@ public class MatrixResponseBuilder implements ChatClientResponseBuilder<MatrixRe
     MatrixResponse matrixResponse = new MatrixResponse();
     matrixResponse.addContent("<b>Title</b> - " + show.getTitle());
     matrixResponse.addContent("<b>TvdbId</b> - " + show.getTvdbId());
-    matrixResponse.addContent("<b>" + ADD_SHOW_COMMAND_FIELD_PREFIX + "</b> - " + SonarrCommands.getAddShowCommandStr(show.getTitle(), show.getTvdbId()));
+    matrixResponse.addContent("<b>" + ADD_SHOW_COMMAND_FIELD_PREFIX + "</b> - " + SonarrCommands.getAddShowCommandStr(show.getTvdbId()));
     matrixResponse.addImage(show.getRemoteImage());
     return matrixResponse;
   }
@@ -223,7 +223,7 @@ public class MatrixResponseBuilder implements ChatClientResponseBuilder<MatrixRe
     MatrixResponse matrixResponse = new MatrixResponse();
     matrixResponse.addContent("<b>Title</b> - " + sonarrShow.getTitle());
     matrixResponse.addContent("<b>TvdbId</b> - " + sonarrShow.getTvdbId());
-    matrixResponse.addContent("<b>" + ADD_SHOW_COMMAND_FIELD_PREFIX + "</b> - " + SonarrCommands.getAddShowCommandStr(sonarrShow.getTitle(), sonarrShow.getTvdbId()));
+    matrixResponse.addContent("<b>" + ADD_SHOW_COMMAND_FIELD_PREFIX + "</b> - " + SonarrCommands.getAddShowCommandStr(sonarrShow.getTvdbId()));
     matrixResponse.addImage(sonarrShow.getRemoteImage());
     return matrixResponse;
   }
