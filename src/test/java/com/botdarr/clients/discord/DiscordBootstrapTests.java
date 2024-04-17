@@ -101,10 +101,9 @@ public class DiscordBootstrapTests {
             mockedEmbed.getFields(); result = new ArrayList<MessageEmbed.Field>(){{
                 add(new MessageEmbed.Field("TvdbId", "43234", false));
             }};
-            mockedEmbed.getTitle(); result = "ShowTitle1";
         }};
         String command = new DiscordBootstrap().getCommandFromEmbed(mockedEmbed);
-        Assert.assertEquals("!show id add ShowTitle1 43234", command);
+        Assert.assertEquals("!show id add 43234", command);
     }
 
     @Test
