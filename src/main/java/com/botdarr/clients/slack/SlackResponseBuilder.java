@@ -106,7 +106,7 @@ public class SlackResponseBuilder implements ChatClientResponseBuilder<SlackResp
       .text(PlainTextObject.builder().text("TvdbId - " + show.getTvdbId()).build())
       .build());
     slackResponse.addBlock(SectionBlock.builder()
-      .text(PlainTextObject.builder().text(ADD_SHOW_COMMAND_FIELD_PREFIX + " - " + SonarrCommands.getAddShowCommandStr(show.getTitle(), show.getTvdbId())).build())
+      .text(PlainTextObject.builder().text(ADD_SHOW_COMMAND_FIELD_PREFIX + " - " + SonarrCommands.getAddShowCommandStr(show.getTvdbId())).build())
       .build());
     if (!Strings.isBlank(show.getRemoteImage())) {
       //if there is no poster to display, slack will fail to render all the blocks
@@ -348,7 +348,7 @@ public class SlackResponseBuilder implements ChatClientResponseBuilder<SlackResp
       .text(MarkdownTextObject.builder().text("TvdbId - " + sonarrShow.getTvdbId()).build())
       .build());
     slackResponse.addBlock(SectionBlock.builder()
-            .text(MarkdownTextObject.builder().text(ADD_SHOW_COMMAND_FIELD_PREFIX + " - " + SonarrCommands.getAddShowCommandStr(sonarrShow.getTitle(), sonarrShow.getTvdbId())).build())
+            .text(MarkdownTextObject.builder().text(ADD_SHOW_COMMAND_FIELD_PREFIX + " - " + SonarrCommands.getAddShowCommandStr(sonarrShow.getTvdbId())).build())
             .build());
     slackResponse.addBlock(ImageBlock.builder()
       .imageUrl(sonarrShow.getRemoteImage())

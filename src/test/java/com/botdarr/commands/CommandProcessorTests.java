@@ -219,39 +219,25 @@ public class CommandProcessorTests {
   }
 
   @Test
-  public void processMessage_missingShowTitleAndIdForAddCommand() {
+  public void processMessage_missingShowIdForAddCommand() {
     validateInvalidCommand("!show id add",
       "Error trying to parse command !show id add, " +
-        "error=Missing expected arguments - usage: show id add SHOW_TITLE_HERE SHOW_ID_HERE");
-  }
-
-  @Test
-  public void processMessage_missingShowTitleForAddCommand() {
-    validateInvalidCommand("!show id add 541515",
-      "Error trying to parse command !show id add 541515, " +
-        "error=Missing expected arguments - usage: show id add SHOW_TITLE_HERE SHOW_ID_HERE");
-  }
-
-  @Test
-  public void processMessage_missingShowIdForAddCommand() {
-    validateInvalidCommand("!show id add Princess5",
-      "Error trying to parse command !show id add Princess5, " +
-        "error=Missing expected arguments - usage: show id add SHOW_TITLE_HERE SHOW_ID_HERE");
+        "error=Missing expected arguments - usage: show id add SHOW_ID_HERE");
   }
 
   @Test
   public void processMessage_invalidShowIdForAddCommand() {
-    validateInvalidCommand("!show id add Princess5 4647x5",
-      "Error trying to parse command !show id add Princess5 4647x5, " +
+    validateInvalidCommand("!show id add 4647x5",
+      "Error trying to parse command !show id add 4647x5, " +
         "error=Show id is not a number");
   }
 
   @Test
-  public void processMessage_validShowTitleAndIdForAddCommand() {
+  public void processMessage_validShowIdForAddCommand() {
     new Expectations() {{
-      sonarrApi.addWithId("princess5", "46475"); times = 1; result = new TestCommandResponse();
+      sonarrApi.addWithId("46475"); times = 1; result = new TestCommandResponse();
     }};
-    validateValidCommand("!show id add Princess5 46475");
+    validateValidCommand("!show id add 46475");
   }
 
   @Test

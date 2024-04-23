@@ -25,8 +25,8 @@ public class SonarrApi implements Api {
     return getDownloadsStrategy().downloads();
   }
 
-  public CommandResponse addWithId(String searchText, String id) {
-    return getAddStrategy().addWithSearchId(searchText, id);
+  public CommandResponse addWithId(String id) {
+    return getAddStrategy().addWithId(id);
   }
 
   public List<CommandResponse> addWithTitle(String searchText) {
@@ -137,9 +137,8 @@ public class SonarrApi implements Api {
       }
 
       @Override
-      public List<SonarrShow> lookupItemById(String id) {
-        //TODO: if sonarr has a lookup by id, implement
-        return Collections.emptyList();
+      public List<SonarrShow> lookupItemById(String id) throws Exception {
+        return lookupShows("tvdb:" + id);
       }
 
       @Override

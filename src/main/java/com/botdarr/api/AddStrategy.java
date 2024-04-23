@@ -49,6 +49,29 @@ public abstract class AddStrategy<T> {
     }
   }
 
+  public CommandResponse addWithId(String id) {
+    try {
+      List<T> items = lookupItemById(id);
+
+      if (items.isEmpty()) {
+        LOGGER.warn("Search id " + id + "yielded no " + this.contentDisplayName + "s, stopping");
+        return new ErrorResponse("No " + this.contentDisplayName + "s found");
+      }
+      for (T item : items) {
+        if (getItemId(item).equalsIgnoreCase(id)) {
+          if (doesItemExist(item)) {
+            return new ErrorResponse(this.contentDisplayName + " already exists");
+          }
+          return addContent(item);
+        }
+      }
+      return new ErrorResponse("Could not find " + contentDisplayName + " with id=" + id);
+    } catch (Throwable e) {
+      LOGGER.error("Error trying to add " + contentDisplayName, e);
+      return new ErrorResponse("Error adding content, e=" + e.getMessage());
+    }
+  }
+
   public List<CommandResponse> addWithSearchTitle(String searchText) {
     try {
       List<T> items = lookupContent(searchText);

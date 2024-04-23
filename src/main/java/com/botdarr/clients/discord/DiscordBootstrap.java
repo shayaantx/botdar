@@ -198,7 +198,7 @@ public class DiscordBootstrap extends ChatClientBootstrap {
                     return RadarrCommands.getAddMovieCommandStr(embed.getTitle(), Long.parseLong(field.getValue()));
                 }
                 if (field.getName().equals(SHOW_LOOKUP_FIELD)) {
-                    return SonarrCommands.getAddShowCommandStr(embed.getTitle(), Long.parseLong(field.getValue()));
+                    return SonarrCommands.getAddShowCommandStr(Long.parseLong(field.getValue()));
                 }
                 if (field.getName().equals(ARTIST_LOOKUP_KEY_FIELD)) {
                     return LidarrCommands.getAddArtistCommandStr(embed.getTitle(), field.getValue());
