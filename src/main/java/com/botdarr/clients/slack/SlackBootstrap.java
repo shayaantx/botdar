@@ -5,13 +5,13 @@ import com.botdarr.clients.ChatClientBootstrap;
 import com.botdarr.clients.ChatClientResponseBuilder;
 import com.botdarr.commands.CommandContext;
 import com.botdarr.scheduling.Scheduler;
-import com.github.seratch.jslack.Slack;
-import com.github.seratch.jslack.api.model.Message;
-import com.github.seratch.jslack.api.model.User;
-import com.github.seratch.jslack.api.model.block.LayoutBlock;
-import com.github.seratch.jslack.api.model.block.SectionBlock;
-import com.github.seratch.jslack.api.model.block.composition.MarkdownTextObject;
-import com.github.seratch.jslack.api.rtm.RTMMessageHandler;
+import com.slack.api.Slack;
+import com.slack.api.model.Message;
+import com.slack.api.model.User;
+import com.slack.api.model.block.LayoutBlock;
+import com.slack.api.model.block.SectionBlock;
+import com.slack.api.model.block.composition.MarkdownTextObject;
+import com.slack.api.rtm.RTMMessageHandler;
 import com.google.common.base.Splitter;
 import com.google.common.collect.Sets;
 import com.google.gson.Gson;
@@ -62,7 +62,7 @@ public class SlackBootstrap extends ChatClientBootstrap {
                             }
                             if (conversationMessages != null) {
                                 conversationMessageLoop:
-                                for (com.github.seratch.jslack.api.model.Message conversationMessage : conversationMessages) {
+                                for (com.slack.api.model.Message conversationMessage : conversationMessages) {
                                     for (LayoutBlock layoutBlock : conversationMessage.getBlocks()) {
                                         if (layoutBlock.getType().equals("section")) {
                                             SectionBlock sectionBlock = (SectionBlock) layoutBlock;

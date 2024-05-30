@@ -74,9 +74,9 @@
             <version>29.0-jre</version>
         </dependency>
         <dependency>
-            <groupId>com.github.seratch</groupId>
-            <artifactId>jslack-lightning</artifactId>
-            <version>3.4.2</version>
+            <groupId>com.slack.api</groupId>
+            <artifactId>slack-api-client</artifactId>
+            <version>1.39.3</version>
         </dependency>
         <dependency>
             <groupId>javax.websocket</groupId>
