@@ -11,10 +11,10 @@ import com.botdarr.clients.ChatClientResponseBuilder;
 import com.botdarr.commands.*;
 import com.botdarr.commands.responses.*;
 import com.botdarr.utilities.ListUtils;
-import com.github.seratch.jslack.api.model.block.*;
-import com.github.seratch.jslack.api.model.block.composition.MarkdownTextObject;
-import com.github.seratch.jslack.api.model.block.composition.PlainTextObject;
-import com.github.seratch.jslack.api.model.block.element.ButtonElement;
+import com.slack.api.model.block.*;
+import com.slack.api.model.block.composition.MarkdownTextObject;
+import com.slack.api.model.block.composition.PlainTextObject;
+import com.slack.api.model.block.element.ButtonElement;
 import org.apache.logging.log4j.util.Strings;
 
 import java.io.IOException;

@@ -1,7 +1,7 @@
 package com.botdarr.clients.slack;
 
 import com.botdarr.clients.ChatClientResponse;
-import com.github.seratch.jslack.api.model.block.LayoutBlock;
+import com.slack.api.model.block.LayoutBlock;
 
 import java.util.ArrayList;
 import java.util.List;
