@@ -7,6 +7,8 @@ import com.botdarr.commands.CommandContext;
 import com.botdarr.scheduling.Scheduler;
 import org.apache.logging.log4j.util.Strings;
 
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.Properties;
 
 public class MatrixBootstrap extends ChatClientBootstrap {
@@ -28,13 +30,28 @@ public class MatrixBootstrap extends ChatClientBootstrap {
         chatClient.listen();
     }
 
+    private boolean isValidURL(String urlString) {
+        try {
+            new URL(urlString);
+            return true;
+        } catch (MalformedURLException e) {
+            return false;
+        }
+    }
+
     @Override
     public boolean isConfigured(Properties properties) {
-        return
+        final boolean isConfigured =
                 !Strings.isBlank(properties.getProperty(Config.Constants.MATRIX_USERNAME)) &&
-                !Strings.isBlank(properties.getProperty(Config.Constants.MATRIX_PASSWORD)) &&
-                !Strings.isBlank(properties.getProperty(Config.Constants.MATRIX_ROOM)) &&
-                !Strings.isBlank(properties.getProperty(Config.Constants.MATRIX_HOME_SERVER));
+                        !Strings.isBlank(properties.getProperty(Config.Constants.MATRIX_PASSWORD)) &&
+                        !Strings.isBlank(properties.getProperty(Config.Constants.MATRIX_ROOM)) &&
+                        !Strings.isBlank(properties.getProperty(Config.Constants.MATRIX_HOME_SERVER));
+
+        if (isConfigured && !isValidURL(properties.getProperty(Config.Constants.MATRIX_HOME_SERVER))) {
+            throw new RuntimeException("Matrix home server must be a url");
+        }
+
+        return isConfigured;
     }
 
     @Override
