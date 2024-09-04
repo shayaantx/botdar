@@ -286,7 +286,7 @@ public class LidarrApi implements Api {
         LIDARR_CACHE.addArtist(lidarrArtist);
         LogManager.getLogger("AuditLog").info("User " + username + " added " + lidarrArtist.getArtistName());
         apiRequests.auditRequest(apiRequestType, username, lidarrArtist.getArtistName());
-        return new SuccessResponse("Artist " + lidarrArtist.getArtistName() + " added, lidarr-detail=" + response.getStatusLine().getReasonPhrase());
+        return new SuccessResponse("Artist " + lidarrArtist.getArtistName() + " was added successfully!");
       }
     } catch (IOException e) {
       LOGGER.error("Error trying to add artist", e);
