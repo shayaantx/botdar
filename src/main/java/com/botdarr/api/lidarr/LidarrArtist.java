@@ -111,9 +111,11 @@ public class LidarrArtist implements KeyBased<String> {
           return lidarrImage.getRemoteUrl();
         }
       }
-      for (LidarrImage lidarrImage : this.lastAlbum.getImages()) {
-        if (lidarrImage.getCoverType().equals("cover") && !Strings.isEmpty(lidarrImage.getUrl())) {
-          return lidarrImage.getUrl();
+      if (this.lastAlbum != null) {
+        for (LidarrImage lidarrImage : this.lastAlbum.getImages()) {
+          if (lidarrImage.getCoverType().equals("cover") && !Strings.isEmpty(lidarrImage.getUrl())) {
+            return lidarrImage.getUrl();
+          }
         }
       }
     }

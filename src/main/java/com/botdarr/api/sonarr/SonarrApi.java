@@ -337,7 +337,7 @@ public class SonarrApi implements Api {
         SONARR_CACHE.add(sonarrShow);
         LogManager.getLogger("AuditLog").info("User " + username + " added " + title);
         apiRequests.auditRequest(apiRequestType, username, title);
-        return new SuccessResponse("Show " + title + " added, sonarr-detail=" + response.getStatusLine().getReasonPhrase());
+        return new SuccessResponse("Show " + title + " was added successfully!");
       }
     } catch (IOException e) {
       LOGGER.error("Error trying to add show=" + title, e);

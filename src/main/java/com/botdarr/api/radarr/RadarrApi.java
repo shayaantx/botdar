@@ -267,7 +267,7 @@ public class RadarrApi implements Api {
         RADARR_CACHE.add(radarrMovie);
         LogManager.getLogger("AuditLog").info("User " + username + " added " + radarrMovie.getTitle());
         apiRequests.auditRequest(apiRequestType, username, radarrMovie.getTitle());
-        return new SuccessResponse("Movie " + radarrMovie.getTitle() + " added, radarr-detail=" + response.getStatusLine().getReasonPhrase());
+        return new SuccessResponse("Movie " + radarrMovie.getTitle() + " was added successfully!");
       }
     } catch (IOException e) {
       LOGGER.error("Error trying to add movie", e);

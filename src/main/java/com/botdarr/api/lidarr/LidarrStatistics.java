@@ -49,10 +49,10 @@ public class LidarrStatistics {
     this.percentOfTracks = percentOfTracks;
   }
 
-  private Integer albumCount;
-  private Integer trackFileCount;
-  private Integer trackCount;
-  private Integer totalTrackCount;
-  private Integer sizeOnDisk;
-  private Double percentOfTracks;
+  private Integer albumCount = 0;
+  private Integer trackFileCount = 0;
+  private Integer trackCount = 0;
+  private Integer totalTrackCount = 0;
+  private Integer sizeOnDisk = 0;
+  private Double percentOfTracks = 0.0;
 }
