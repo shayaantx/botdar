@@ -17,6 +17,8 @@ import com.google.common.collect.Sets;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+import com.slack.api.socket_mode.listener.EnvelopeListener;
+import com.slack.api.socket_mode.request.EventsApiEnvelope;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.util.Strings;
@@ -33,16 +35,17 @@ public class SlackBootstrap extends ChatClientBootstrap {
     @Override
     public void init() throws Exception {
         JsonParser jsonParser = new JsonParser();
-        SlackChatClient slackChatClient = new SlackChatClient(Slack.getInstance().rtm(Config.getProperty(Config.Constants.SLACK_BOT_TOKEN)));
+        SlackChatClient slackChatClient = new SlackChatClient(Slack.getInstance().socketMode(Config.getProperty(Config.Constants.SLACK_APP_TOKEN)));
 
         ChatClientResponseBuilder<SlackResponse> responseChatClientResponseBuilder = new SlackResponseBuilder();
         ChatClientBootstrap.ApisAndCommandConfig config = buildConfig();
 
-        slackChatClient.addMessageHandler(new RTMMessageHandler() {
+        slackChatClient.addMessageHandler(new EnvelopeListener<EventsApiEnvelope>() {
             @Override
-            public void handle(String message) {
-                JsonObject json = jsonParser.parse(message).getAsJsonObject();
-                SlackMessage slackMessage = new Gson().fromJson(json, SlackMessage.class);
+            public void handle(EventsApiEnvelope eventsApiEnvelope) {
+                JsonObject json = jsonParser.parse(eventsApiEnvelope.getPayload().toString()).getAsJsonObject();
+                SlackEventContainer slackEventContainer = new Gson().fromJson(json, SlackEventContainer.class);
+                SlackMessage slackMessage = slackEventContainer.getEvent();
                 if (slackMessage.getType() != null) {
                     if (slackMessage.getType().equalsIgnoreCase("message")) {
                         User user = slackChatClient.getUser(slackMessage.getUserId());
@@ -98,7 +101,6 @@ public class SlackBootstrap extends ChatClientBootstrap {
                 });
             }
         });
-
         //start the scheduler threads that send notifications and cache data periodically
         initScheduling(slackChatClient, responseChatClientResponseBuilder, config.getApis());
 

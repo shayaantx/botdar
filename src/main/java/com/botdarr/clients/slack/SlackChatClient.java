@@ -16,10 +16,14 @@ import com.slack.api.model.Message;
 import com.slack.api.model.User;
 import com.slack.api.model.block.DividerBlock;
 import com.slack.api.model.block.LayoutBlock;
-import com.slack.api.rtm.RTMClient;
-import com.slack.api.rtm.RTMMessageHandler;
 import com.google.common.base.Splitter;
 import com.google.common.collect.Sets;
+import com.slack.api.socket_mode.SocketModeClient;
+import com.slack.api.socket_mode.listener.EnvelopeListener;
+import com.slack.api.socket_mode.listener.WebSocketMessageListener;
+import com.slack.api.socket_mode.request.EventsApiEnvelope;
+import com.slack.api.socket_mode.request.InteractiveEnvelope;
+import com.slack.api.socket_mode.request.SlashCommandsEnvelope;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.util.Strings;
@@ -29,32 +33,44 @@ import java.util.*;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 public class SlackChatClient implements ChatClient<SlackResponse> {
-  public SlackChatClient(RTMClient rtmClient) {
-    this.rtm = rtmClient;
-    rtm.addCloseHandler(reason -> {
-      connected.set(false);
-      LOGGER.error("Error caught during slack close handler, reason=" +  reason.toString());
+  public SlackChatClient(SocketModeClient socketClient) {
+    this.socketClient = socketClient;
+    this.socketClient.addWebSocketCloseListener((code, s) -> {
+        connected.set(false);
+        LOGGER.error("Error caught during slack close handler, reason=" + s + ",code=" + code);
     });
-    rtm.addErrorHandler(reason -> {
-      LOGGER.error("Error caught from slack error handler", reason);
+    this.socketClient.addWebSocketErrorListener(throwable -> {
+      LOGGER.error("Error caught from slack error handler", throwable);
     });
   }
 
-  public void addMessageHandler(RTMMessageHandler messageHandler) {
-    rtm.addMessageHandler(messageHandler);
+  public void addMessageHandler(EnvelopeListener<EventsApiEnvelope> messageHandler) {
+    socketClient.addEventsApiEnvelopeListener(messageHandler);
+    socketClient.addWebSocketMessageListener(new WebSocketMessageListener() {
+        @Override
+        public void handle(String ee) {
+          int i = 0;
+        }
+    });
+    socketClient.addInteractiveEnvelopeListener(new EnvelopeListener<InteractiveEnvelope>() {
+        @Override
+        public void handle(InteractiveEnvelope ff) {
+          int i = 0;
+        }
+    });
+    socketClient.addSlashCommandsEnvelopeListener(new EnvelopeListener<SlashCommandsEnvelope>() {
+        @Override
+        public void handle(SlashCommandsEnvelope fff) {
+          int i = 0;
+        }
+    });
   }
 
   public void connect() throws Exception {
-    // must connect within 30 seconds after establishing wss endpoint
-    this.rtm.connect();
+    this.socketClient.setAutoReconnectEnabled(true);
+    this.socketClient.connect();
     while(true) {
-      //set state of whether we are connected or not (jslack doesn't expose session in rtm client so we need our own state)
-      connected.set(true);
-      while (connected.get()) {
-        Thread.sleep(1000);
-      }
-      //if we for some reason stop being connected, reconnect and retry
-      this.rtm.reconnect();
+      Thread.sleep(1000);
     }
   }
 
@@ -91,21 +107,21 @@ public class SlackChatClient implements ChatClient<SlackResponse> {
 
   public List<Message> getPublicMessages(SlackMessage slackMessage) throws IOException, SlackApiException {
     return Slack.getInstance().methods().conversationsHistory(ConversationsHistoryRequest.builder()
-      .token(Config.getProperty(Config.Constants.SLACK_USER_TOKEN))
+      .token(Config.getProperty(Config.Constants.SLACK_BOT_TOKEN))
       .channel(slackMessage.getItem().getChannel())
       .oldest(slackMessage.getItem().getTs())
       .inclusive(true)
-      .limit(1)
+      .limit(Integer.valueOf(1))
       .build()).getMessages();
   }
 
   public List<Message> getPrivateMessages(SlackMessage slackMessage) throws IOException, SlackApiException {
     return Slack.getInstance().methods().groupsHistory(GroupsHistoryRequest.builder()
-      .token(Config.getProperty(Config.Constants.SLACK_USER_TOKEN))
+      .token(Config.getProperty(Config.Constants.SLACK_BOT_TOKEN))
       .channel(slackMessage.getItem().getChannel())
       .oldest(slackMessage.getItem().getTs())
       .inclusive(true)
-      .count(1)
+      .count(Integer.valueOf(1))
       .build()).getMessages();
   }
 
@@ -163,6 +179,6 @@ public class SlackChatClient implements ChatClient<SlackResponse> {
 
   private AtomicBoolean connected = new AtomicBoolean(false);
 
-  private final RTMClient rtm;
+  private final SocketModeClient socketClient;
   private static final Logger LOGGER = LogManager.getLogger("SlackLog");
 }

@@ -76,7 +76,7 @@
         <dependency>
             <groupId>com.slack.api</groupId>
             <artifactId>slack-api-client</artifactId>
-            <version>1.39.3</version>
+            <version>1.45.0</version>
         </dependency>
         <dependency>
             <groupId>javax.websocket</groupId>
