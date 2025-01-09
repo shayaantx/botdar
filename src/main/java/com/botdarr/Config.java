@@ -276,9 +276,9 @@ public class Config {
     public static final String SLACK_BOT_TOKEN = "slack-bot-token";
 
     /**
-     * The slack user oauth token
+     * The slack app token for socket mode
      */
-    public static final String SLACK_USER_TOKEN = "slack-user-token";
+    public static final String SLACK_APP_TOKEN = "slack-app-token";
 
     /**
      * The slack channel(s) to send notifications to
